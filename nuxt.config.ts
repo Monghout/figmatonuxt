@@ -19,7 +19,9 @@ export default defineNuxtConfig({
       firebaseAppId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID,
     },
   },
-
+  nitro: {
+    static: true,
+  },
   modules: [
     "@nuxt/content",
     "@nuxt/eslint",
