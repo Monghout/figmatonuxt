@@ -6,8 +6,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "build": "npm ci --no-optional && nuxt build",
-    "postinstall": "npm config set interactive false && nuxt prepare"
+    "build": "nuxt build",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@nuxt/content": "^3.6.1",
