@@ -3,11 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "build": "npm ci --no-optional && nuxt build",
+    "postinstall": "npm config set interactive false && nuxt prepare"
   },
   "dependencies": {
     "@nuxt/content": "^3.6.1",
