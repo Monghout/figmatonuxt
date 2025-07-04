@@ -12,8 +12,7 @@
               :key="item.name"
               :item="item"
               :active-dropdown="activeDropdown"
-              @mouseenter="activeDropdown = item.name"
-              @mouseleave="activeDropdown = null"
+              @set-active-dropdown="setActiveDropdown"
             />
           </div>
           <div class="flex items-center space-x-4">
@@ -27,12 +26,18 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import NavDropdown from "./dropDownMenu.vue";
 import CurrencySelector from "./coins.vue";
 import AuthButtons from "./auth.vue";
 
-defineProps({
+const props = defineProps({
   navigation: Array,
-  activeDropdown: String,
 });
+
+const activeDropdown = ref(null);
+
+const setActiveDropdown = (name) => {
+  activeDropdown.value = name;
+};
 </script>
