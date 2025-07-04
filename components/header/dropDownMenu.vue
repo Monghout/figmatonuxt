@@ -7,9 +7,9 @@
     <button
       class="px-4 py-2 flex items-center space-x-1 text-xs font-medium transition-all duration-100 rounded-xl group"
       :class="{
-        'text-yellow-400 bg-black hover:bg-gradient-to-b hover:from-gray-800 hover:via-black':
-          activeDropdown === item.name,
-        'text-black hover:text-yellow-400': activeDropdown !== item.name,
+        'text-yellow-400  bg-black ': activeDropdown === item.name,
+        'text-black hover:text-yellow-400 hover:bg-gradient-to-b hover:from-gray-800 via-neutral-900 hover:to-black':
+          activeDropdown !== item.name,
       }"
     >
       <span>{{ item.name }}</span>

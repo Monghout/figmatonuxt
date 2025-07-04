@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-gradient-to-r from-yellow-600 to-yellow-500 w-full">
+  <div
+    class="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600"
+  >
     <nav class="container">
       <div class="flex h-12">
         <div class="w-1/5"></div>
