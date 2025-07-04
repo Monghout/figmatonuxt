@@ -28,9 +28,9 @@
         <div class="relative z-20 h-full flex flex-col justify-between p-5">
           <!-- Top Row -->
           <div class="flex justify-between items-center w-full">
-            <!-- Hot Tag -->
+            <!-- Hot Tag - Updated to match border color -->
             <div
-              class="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full shadow-md"
+              class="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full shadow-md border border-yellow-300"
             >
               <Flame class="h-3.5 w-3.5 text-white" />
               <span class="text-xs font-bold text-white tracking-wide"
@@ -57,10 +57,10 @@
               <div v-else class="relative flex items-center justify-center">
                 <button
                   @click.stop="toggleNotification(match.id)"
-                  class="w-12 h-12 p-2 rounded-xl backdrop-blur-sm shadow hover:bg-gray-700/80 transition-colors focus:outline-none flex flex-col items-center justify-center relative"
+                  class="w-12 h-12 p-2 rounded-xl backdrop-blur-sm shadow hover:bg-yellow-500/30 transition-colors focus:outline-none flex flex-col items-center justify-center relative border border-yellow-400/50"
                   :class="{
                     'bg-gray-800/70': !notificationStates[match.id],
-                    'bg-white': notificationStates[match.id],
+                    'bg-yellow-400/90': notificationStates[match.id],
                   }"
                   aria-label="Notifications"
                 >
@@ -68,7 +68,7 @@
                   <Bell
                     class="h-5 w-5 mb-1"
                     :class="{
-                      'text-white': !notificationStates[match.id],
+                      'text-yellow-400': !notificationStates[match.id],
                       'text-gray-900': notificationStates[match.id],
                     }"
                   />
@@ -77,23 +77,23 @@
                   <span
                     class="text-xs font-medium"
                     :class="{
-                      'text-white': !notificationStates[match.id],
+                      'text-yellow-400': !notificationStates[match.id],
                       'text-gray-900': notificationStates[match.id],
                     }"
                   >
                     {{ notificationStates[match.id] ? "ON" : "OFF" }}
                   </span>
 
-                  <!-- Ping Dot -->
+                  <!-- Ping Dot - Updated to yellow -->
                   <span class="absolute top-1 right-1 flex h-2.5 w-2.5">
                     <span
                       v-if="!notificationStates[match.id]"
-                      class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"
+                      class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"
                     ></span>
                     <span
                       class="relative inline-flex rounded-full h-2.5 w-2.5"
                       :class="{
-                        'bg-amber-500': !notificationStates[match.id],
+                        'bg-yellow-500': !notificationStates[match.id],
                         'bg-transparent': notificationStates[match.id],
                       }"
                     ></span>
