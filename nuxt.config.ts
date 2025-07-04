@@ -22,12 +22,7 @@ export default defineNuxtConfig({
   nitro: {
     static: true,
   },
-  content: {
-    database: {
-      type: "libsql",
-      url: "file:content.db", // or use a remote libsql database
-    },
-  },
+
   modules: [
     "@nuxt/content",
     "@nuxt/eslint",
