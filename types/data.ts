@@ -1,5 +1,6 @@
 // types/data.ts
 export interface Match {
+  [x: string]: any;
   id: number;
   title: string;
   teamA: string;

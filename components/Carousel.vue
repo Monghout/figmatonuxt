@@ -17,7 +17,7 @@
       <div
         v-for="match in matches"
         :key="match.id"
-        class="flex-none snap-start w-[300px] h-[220px] rounded-2xl overflow-hidden relative transition-all shadow-lg hover:shadow-xl hover:-translate-y-1.5 group border-1 border-yellow-400"
+        class="flex-none snap-start w-[300px] h-[220px] rounded-2xl overflow-hidden relative transition-all shadow-lg hover:shadow-xl hover:-translate-y-1.5 group border-2 border-yellow-400"
         :style="{
           'background-image': `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url(${match.bg})`,
           'background-size': 'cover',
@@ -25,12 +25,12 @@
         }"
       >
         <!-- Content container -->
-        <div class="relative z-20 h-full flex flex-col justify-between p-5">
+        <div class="relative z-10 h-full flex flex-col justify-between p-2">
           <!-- Top Row -->
           <div class="flex justify-between items-center w-full">
             <!-- Hot Tag - Updated to match border color -->
             <div
-              class="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full shadow-md border border-yellow-300"
+              class="flex items-center px-5 py-1 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full shadow-md border border-yellow-300"
             >
               <Flame class="h-3.5 w-3.5 text-white" />
               <span class="text-xs font-bold text-white tracking-wide"
@@ -39,12 +39,15 @@
             </div>
 
             <!-- Notification Badge -->
-            <div class="flex items-center">
+            <div class="absolute top-2 right-2 z-30">
               <div
                 v-if="match.isLive"
-                class="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-full text-xs font-bold tracking-wide shadow-md"
+                class="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-b from-red-500 to-red-700 text-white rounded-full text-xs font-bold tracking-wide shadow-md border border-red-600/50 relative"
               >
-                <span class="relative flex h-2 w-2">
+                <div
+                  class="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent rounded-full"
+                ></div>
+                <span class="relative flex h-2 w-2 z-10">
                   <span
                     class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"
                   ></span>
@@ -52,54 +55,56 @@
                     class="relative inline-flex rounded-full h-2 w-2 bg-white"
                   ></span>
                 </span>
-                LIVE NOW
+                <span class="relative z-10">LIVE NOW</span>
               </div>
-              <div v-else class="relative flex items-center justify-center">
-                <button
-                  @click.stop="toggleNotification(match.id)"
-                  class="w-12 h-12 p-2 rounded-xl backdrop-blur-sm shadow hover:bg-yellow-500/30 transition-colors focus:outline-none flex flex-col items-center justify-center relative border border-yellow-400/50"
+              <button
+                v-else
+                @click.stop="toggleNotification(match.id)"
+                class="w-12 h-12 p-2 rounded-xl transition-all focus:outline-none flex flex-col items-center justify-center relative border shadow-md"
+                :class="{
+                  'bg-gradient-to-b from-yellow-400 to-yellow-600 border-yellow-500/50 shadow-inner':
+                    notificationStates[match.id],
+                  'bg-gradient-to-b from-gray-700 to-gray-900 border-gray-600/50 hover:from-gray-600 hover:to-gray-800':
+                    !notificationStates[match.id],
+                }"
+              >
+                <div
+                  class="absolute inset-0 rounded-xl"
                   :class="{
-                    'bg-gray-800/70': !notificationStates[match.id],
-                    'bg-yellow-400/90': notificationStates[match.id],
+                    'bg-gradient-to-b from-white/20 to-transparent':
+                      notificationStates[match.id],
+                    'bg-gradient-to-b from-white/10 to-transparent':
+                      !notificationStates[match.id],
                   }"
-                  aria-label="Notifications"
+                ></div>
+                <Bell
+                  class="h-4 w-4 mb-0.5 relative z-10"
+                  :class="{
+                    'text-gray-900': notificationStates[match.id],
+                    'text-yellow-400': !notificationStates[match.id],
+                  }"
+                />
+                <span
+                  class="text-[10px] font-medium relative z-10"
+                  :class="{
+                    'text-gray-900': notificationStates[match.id],
+                    'text-yellow-400': !notificationStates[match.id],
+                  }"
                 >
-                  <!-- Bell Icon -->
-                  <Bell
-                    class="h-5 w-5 mb-1"
-                    :class="{
-                      'text-yellow-400': !notificationStates[match.id],
-                      'text-gray-900': notificationStates[match.id],
-                    }"
-                  />
-
-                  <!-- ON/OFF Label -->
+                  {{ notificationStates[match.id] ? "ON" : "OFF" }}
+                </span>
+                <span
+                  v-if="!notificationStates[match.id]"
+                  class="absolute top-1 right-1 flex h-2.5 w-2.5 z-10"
+                >
                   <span
-                    class="text-xs font-medium"
-                    :class="{
-                      'text-yellow-400': !notificationStates[match.id],
-                      'text-gray-900': notificationStates[match.id],
-                    }"
-                  >
-                    {{ notificationStates[match.id] ? "ON" : "OFF" }}
-                  </span>
-
-                  <!-- Ping Dot - Updated to yellow -->
-                  <span class="absolute top-1 right-1 flex h-2.5 w-2.5">
-                    <span
-                      v-if="!notificationStates[match.id]"
-                      class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"
-                    ></span>
-                    <span
-                      class="relative inline-flex rounded-full h-2.5 w-2.5"
-                      :class="{
-                        'bg-yellow-500': !notificationStates[match.id],
-                        'bg-transparent': notificationStates[match.id],
-                      }"
-                    ></span>
-                  </span>
-                </button>
-              </div>
+                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"
+                  ></span>
+                  <span
+                    class="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-500"
+                  ></span>
+                </span>
+              </button>
             </div>
           </div>
 
@@ -107,25 +112,17 @@
 
           <!-- Bottom Tab Section -->
           <div
-            class="absolute bottom-0 left-0 right-0 p-2 rounded-2xl border-t border-yellow-400/50"
-            :style="{
-              background:
-                'linear-gradient(to top,rgba(220, 180, 90, 1), rgba(180, 140, 70, 0.8 ), rgba(220, 180, 90, 1))',
-              'backdrop-filter': 'blur(10px)',
-            }"
+            class="absolute bottom-0 left-0 right-0 rounded-r-xl border-t border-yellow-500 bg-gradient-to-t from-[#ffbe28] via-[#FFC052FF]/80 to-[#ffc641] backdrop-blur-md"
           >
-            <!-- Trophy icon -->
             <div>
-              <div
-                class="absolute -top-7 left-10 transform -translate-x-1/2"
-              ></div>
+              <div class="absolute -top-7"></div>
               <div>
-                <div class="absolute -top-5 left-4 transform -translate-x-1/64">
+                <div class="absolute -top-5">
                   <div
-                    class="bg-yellow-400 p-1.5 rounded-full shadow-lg border-2 border-yellow-600"
+                    class="bg-gradient-to-t from-[#fbc64b] to-[#ffc94b] backdrop-blur-md rounded-tr-xl p-0.5 border-t-2 border-yellow-500"
                   >
                     <span
-                      class="text-[12px] text-gray-800 text-center line-clamp-2 font-bold px-1"
+                      class="text-[10px] text-gray-800 text-center line-clamp-2 font-bold px-4"
                     >
                       {{ match.league }}
                     </span>
@@ -135,49 +132,45 @@
             </div>
 
             <!-- Grid Layout -->
-            <div class="grid grid-cols-12 gap-1 items-start pt-4">
+            <div class="grid grid-cols-12 gap-1 items-center pt-2 px-2">
               <!-- Team A Column -->
-              <div class="col-span-5 flex flex-col items-center h-full">
-                <div class="flex flex-col items-center w-full">
-                  <img
-                    :src="match.teamALogo"
-                    :alt="match.teamA"
-                    class="h-10 w-10 object-contain mb-1.5 min-w-[20px]"
-                  />
-                  <span
-                    class="text-xs font-semibold text-gray-900 text-center line-clamp-2 leading-tight w-full px-1"
-                  >
-                    {{ match.teamA }}
-                  </span>
-                </div>
+              <div class="col-span-5 flex items-center justify-start space-x-2">
+                <img
+                  :src="match.teamALogo"
+                  :alt="match.teamA"
+                  class="h-10 w-10 object-contain"
+                />
+                <span
+                  class="text-[10px] text-gray-800 leading-tight break-words font-semibold max-w-[55px]"
+                >
+                  {{ match.teamA }}
+                </span>
               </div>
 
-              <!-- VS/League Center Column -->
+              <!-- VS / Time Column -->
               <div
-                class="col-span-2 flex flex-col items-center justify-start h-full pt-2"
+                class="col-span-2 flex flex-col items-center justify-center space-y-1"
               >
+                <span class="text-sm font-bold text-gray-800">VS</span>
                 <span
-                  class="text-sm text-white font-semibold text-shadow-2xs shadow-black"
+                  class="text-[10px] font-medium text-white bg-gray-800 px-2 py-0.5 rounded-md shadow"
                 >
                   {{ match.time }}
                 </span>
-                <span class="text-lg font-bold text-gray-900 mb-1">VS</span>
               </div>
 
               <!-- Team B Column -->
-              <div class="col-span-5 flex flex-col items-center h-full">
-                <div class="flex flex-col items-center w-full">
-                  <img
-                    :src="match.teamBLogo"
-                    :alt="match.teamB"
-                    class="h-10 w-10 object-contain mb-1.5 min-w-[32px]"
-                  />
-                  <span
-                    class="text-xs font-semibold text-gray-900 text-center line-clamp-2 leading-tight w-full px-1"
-                  >
-                    {{ match.teamB }}
-                  </span>
-                </div>
+              <div class="col-span-5 flex items-center justify-end space-x-2">
+                <span
+                  class="text-[10px] text-gray-800 leading-tight text-right break-words font-semibold max-w-[55px]"
+                >
+                  {{ match.teamB }}
+                </span>
+                <img
+                  :src="match.teamBLogo"
+                  :alt="match.teamB"
+                  class="h-10 w-10 object-contain"
+                />
               </div>
             </div>
           </div>
