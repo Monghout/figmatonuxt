@@ -1,5 +1,5 @@
 <template>
-  <header class="font-sans">
+  <div class="font-sans">
     <HeaderLogo />
     <HeaderTopNav
       :navigation="navigation"
@@ -7,7 +7,7 @@
       @update:active-dropdown="activeDropdown = $event"
     />
     <HeaderBottomNav :quick-links="quickLinks" />
-  </header>
+  </div>
 </template>
 
 <script setup>

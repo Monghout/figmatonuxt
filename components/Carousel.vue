@@ -109,6 +109,14 @@
           </div>
 
           <!-- Match Content -->
+          <!-- Soccer Icon (Moving) -->
+          <div class="absolute bottom-[60px] right-2 z-20">
+            <img
+              src="/icons/baseketball.png"
+              alt="soccer ball"
+              class="h-10 w-10 animate-spin-slow"
+            />
+          </div>
 
           <!-- Bottom Tab Section -->
           <div
@@ -254,5 +262,17 @@ const formatDate = (dateString: string) => {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
 }
 </style>
