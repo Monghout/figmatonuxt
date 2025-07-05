@@ -11,7 +11,6 @@
               class="bg-gray-800 border border-gray-700 text-white text-xs rounded px-2 py-1 focus:ring-yellow-500 focus:border-yellow-500"
             >
               <option>🇺🇸 ENGLISH</option>
-              <option>🇻🇳 VIETNAMESE</option>
             </select>
           </div>
         </div>
