@@ -5,7 +5,7 @@
     @mouseleave="currencyOpen = false"
   >
     <button
-      class="flex items-center space-x-1 px-3 py-1 bg-black text-yellow-400 hover:bg-yellow-400 hover:text-black rounded-full font-semibold text-sm transition-colors"
+      class="flex items-center space-x-1 px-3 py-1 bg-white text-black hover:bg-yellow-400 hover:text-black rounded-full font-semibold text-sm transition-colors"
     >
       <span>💰</span>
       <span>1000</span>

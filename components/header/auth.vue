@@ -23,7 +23,7 @@
           </svg>
           <span
             v-if="unreadCount > 0"
-            class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center border border-yellow-400 shadow-sm"
+            class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-2 w-2 flex items-center justify-center border border-yellow-400 shadow-sm"
           >
             {{ unreadCount }}
           </span>
@@ -107,16 +107,12 @@
 
     <!-- User Profile - RPG Style -->
     <div v-else class="flex items-center space-x-3">
-      <!-- XP Progress Bar -->
-      <div class="w-20 h-1.5 bg-gray-800 rounded-full overflow-hidden">
-        <div
-          class="h-full bg-gradient-to-r from-white to-white"
-          :style="{ width: `${xpPercent}%` }"
-        ></div>
-      </div>
-
       <!-- Profile Avatar with Level -->
-      <div class="relative group">
+      <div
+        class="relative group"
+        @mouseenter="showDropdown = true"
+        @mouseleave="delayHideDropdown"
+      >
         <div
           class="relative p-0.5 rounded-full bg-gradient-to-br from-yellow-400 via-yellow-600 to-yellow-800 animate-glow"
         >
@@ -143,54 +139,52 @@
             </div>
           </div>
         </div>
-        <!-- Hover Tooltip -->
+
+        <!-- Dropdown Menu -->
         <div
-          class="absolute right-0 bottom-full mb-2 hidden group-hover:block bg-gray-900/95 backdrop-blur-sm px-3 py-2 rounded-md border border-yellow-500/30 shadow-xl z-50 min-w-[180px]"
+          v-show="showDropdown"
+          class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-50 border border-yellow-500/30"
+          @mouseenter="showDropdown = true"
+          @mouseleave="showDropdown = false"
         >
-          <div class="text-yellow-400 text-xs font-bold mb-1">
-            {{ user.displayName || user.email }}
+          <div class="py-1">
+            <a
+              href="#"
+              class="block px-4 py-2 text-sm text-gray-200 hover:bg-yellow-900/30 hover:text-yellow-400 transition-colors"
+            >
+              Profile
+            </a>
+            <a
+              href="#"
+              class="block px-4 py-2 text-sm text-gray-200 hover:bg-yellow-900/30 hover:text-yellow-400 transition-colors"
+            >
+              Settings
+            </a>
+            <a
+              href="#"
+              class="block px-4 py-2 text-sm text-gray-200 hover:bg-yellow-900/30 hover:text-yellow-400 transition-colors"
+            >
+              Messages
+            </a>
           </div>
-          <div class="flex justify-between text-xxs text-gray-300">
-            <span>Level {{ userLevel }}</span>
-            <span>{{ xpCurrent }}/{{ xpNextLevel }} XP</span>
-          </div>
-          <div
-            class="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden mt-1"
-          >
-            <div
-              class="h-full bg-gradient-to-r from-yellow-400 to-yellow-600"
-              :style="{ width: `${xpPercent}%` }"
-            ></div>
+          <div class="border-t border-gray-700">
+            <button
+              @click="logout"
+              class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-900/30 transition-colors"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
-
-      <!-- Logout Button -->
-      <button
-        @click="logout"
-        class="px-3 py-1 rounded-md text-xs font-bold bg-gradient-to-b from-gray-800 to-black text-yellow-400 hover:text-yellow-300 shadow-md hover:from-gray-700 hover:to-gray-900 transition-all border border-yellow-800/50 hover:border-yellow-600/50"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-          />
-        </svg>
-      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useAuth } from "~/composible/useAuth";
+import { ref, computed } from "vue";
+
 const { user, logout } = useAuth();
 
 // Game stats - replace with real data
@@ -203,12 +197,26 @@ const xpPercent = computed(() =>
   Math.round((xpCurrent.value / xpNextLevel.value) * 100)
 );
 
+// Dropdown state
+const showDropdown = ref(false);
+let hideTimeout: number;
+
+const delayHideDropdown = () => {
+  hideTimeout = setTimeout(() => {
+    showDropdown.value = false;
+  }, 30000); // 300ms delay before hiding
+};
+
+const cancelHide = () => {
+  clearTimeout(hideTimeout);
+};
+
 // Compute user initials for placeholder
 const userInitials = computed(() => {
   if (!user.value?.displayName && !user.value?.email) return "?";
   const name = user.value.displayName || user.value.email;
   return name
-    .split(" ")
+    ?.split(" ")
     .map((n) => n[0])
     .join("")
     .toUpperCase()

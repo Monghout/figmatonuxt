@@ -12,105 +12,50 @@
     <!-- Carousel -->
     <div
       ref="carousel"
-      class="flex overflow-x-auto scroll-smooth snap-x snap-mandatory touch-pan-x gap-4 py-2 w-full scrollbar-none px-2"
+      class="flex overflow-x-auto scroll-smooth snap-x snap-mandatory touch-pan-x gap-3 py-2 w-full scrollbar-none"
     >
       <div
         v-for="match in matches"
         :key="match.id"
-        class="flex-none snap-start w-[300px] h-[220px] rounded-2xl overflow-hidden relative transition-all shadow-lg hover:shadow-xl hover:-translate-y-1.5 group border-2 border-yellow-400"
+        class="flex-none snap-start w-[280px] h-[180px] rounded-2xl overflow-hidden relative transition-all border-2 border-yellow-400"
         :style="{
-          'background-image': `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url(${match.bg})`,
+          'background-image': `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url(${match.bg}) `,
           'background-size': 'cover',
           'background-position': 'center',
         }"
       >
         <!-- Content container -->
-        <div class="relative z-10 h-full flex flex-col justify-between p-2">
-          <!-- Top Row -->
-          <div class="flex justify-between items-center w-full">
-            <!-- Hot Tag - Updated to match border color -->
-            <div
-              class="flex items-center px-5 py-1 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full shadow-md border border-yellow-300"
-            >
-              <Flame class="h-3.5 w-3.5 text-white" />
-              <span class="text-xs font-bold text-white tracking-wide"
-                >Hot</span
-              >
-            </div>
-
-            <!-- Notification Badge -->
-            <div class="absolute top-2 right-2 z-30">
+        <div class="relative z-10 h-full flex flex-col justify-between">
+          <!-- 🔥 HOT Flame Badge in Top-Right -->
+          <div class="w-full h-full">
+            <div class="absolute top-0 right-0 z-50">
               <div
-                v-if="match.isLive"
-                class="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-b from-red-500 to-red-700 text-white rounded-full text-xs font-bold tracking-wide shadow-md border border-red-600/50 relative"
+                class="relative flex items-center justify-center w-8 h-6 bg-gradient-to-br from-yellow-400 to-yellow-500 border border-yellow-300 rounded-bl-2xl shadow-sm overflow-hidden"
               >
-                <div
-                  class="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent rounded-full"
-                ></div>
-                <span class="relative flex h-2 w-2 z-10">
-                  <span
-                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"
-                  ></span>
-                  <span
-                    class="relative inline-flex rounded-full h-2 w-2 bg-white"
-                  ></span>
-                </span>
-                <span class="relative z-10">LIVE NOW</span>
+                <!-- GIF as background layer -->
               </div>
-              <button
-                v-else
-                @click.stop="toggleNotification(match.id)"
-                class="w-12 h-12 p-2 rounded-xl transition-all focus:outline-none flex flex-col items-center justify-center relative border shadow-md"
-                :class="{
-                  'bg-gradient-to-b from-yellow-400 to-yellow-600 border-yellow-500/50 shadow-inner':
-                    notificationStates[match.id],
-                  'bg-gradient-to-b from-gray-700 to-gray-900 border-gray-600/50 hover:from-gray-600 hover:to-gray-800':
-                    !notificationStates[match.id],
-                }"
-              >
-                <div
-                  class="absolute inset-0 rounded-xl"
-                  :class="{
-                    'bg-gradient-to-b from-white/20 to-transparent':
-                      notificationStates[match.id],
-                    'bg-gradient-to-b from-white/10 to-transparent':
-                      !notificationStates[match.id],
-                  }"
-                ></div>
-                <Bell
-                  class="h-4 w-4 mb-0.5 relative z-10"
-                  :class="{
-                    'text-gray-900': notificationStates[match.id],
-                    'text-yellow-400': !notificationStates[match.id],
-                  }"
-                />
-                <span
-                  class="text-[10px] font-medium relative z-10"
-                  :class="{
-                    'text-gray-900': notificationStates[match.id],
-                    'text-yellow-400': !notificationStates[match.id],
-                  }"
-                >
-                  {{ notificationStates[match.id] ? "ON" : "OFF" }}
-                </span>
-                <span
-                  v-if="!notificationStates[match.id]"
-                  class="absolute top-1 right-1 flex h-2.5 w-2.5 z-10"
-                >
+              <div class="relative bottom-6 -right-1">
+                <div>
+                  <img
+                    src="/icons/Flame.gif"
+                    alt="hot flame"
+                    class="absolute inset-0 w-full h-full object-cover opacity-70"
+                  />
+                </div>
+                <!-- Text on top of GIF -->
+                <div>
                   <span
-                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"
-                  ></span>
-                  <span
-                    class="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-500"
-                  ></span>
-                </span>
-              </button>
+                    class="relative text-[10px] font-extrabold text-red-600 uppercase tracking-wide z-10"
+                    style="-webkit-text-stroke: 0.6px gold"
+                  >
+                    HOT
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-
-          <!-- Match Content -->
           <!-- Soccer Icon (Moving) -->
-          <div class="absolute bottom-[60px] right-2 z-20">
+          <div class="absolute bottom-[60px] left-2 z-20">
             <img
               src="/icons/baseketball.png"
               alt="soccer ball"
@@ -119,66 +64,114 @@
           </div>
 
           <!-- Bottom Tab Section -->
-          <div
-            class="absolute bottom-0 left-0 right-0 rounded-r-xl border-t border-yellow-500 bg-gradient-to-t from-[#ffbe28] via-[#FFC052FF]/80 to-[#ffc641] backdrop-blur-md"
-          >
-            <div>
-              <div class="absolute -top-7"></div>
-              <div>
-                <div class="absolute -top-5">
-                  <div
-                    class="bg-gradient-to-t from-[#fbc64b] to-[#ffc94b] backdrop-blur-md rounded-tr-xl p-0.5 border-t-2 border-yellow-500"
-                  >
-                    <span
-                      class="text-[10px] text-gray-800 text-center line-clamp-2 font-bold px-4"
-                    >
-                      {{ match.league }}
-                    </span>
+          <div>
+            <!-- Grid Layout -->
+            <div
+              class="absolute bottom-0 left-0 right-0 rounded-lg border-yellow-500 bg-gradient-to-t from-[#fdc33c] to-[#fed77d]"
+            >
+              <div class="grid grid-cols-12 gap-2 items-center pt-2 px-4">
+                <!-- LEFT COLUMN: 3x2 inner grid -->
+                <div class="col-span-8">
+                  <div class="grid grid-cols-3 grid-rows-2 items-center">
+                    <!-- Top Row -->
+                    <div class="flex items-center justify-start">
+                      <span class="text-xs text-gray-800 font-semibold">
+                        Team A
+                      </span>
+                    </div>
+
+                    <div class="flex items-center justify-center">
+                      <span class="text-sm font-bold text-black">VS</span>
+                    </div>
+
+                    <div class="flex items-center justify-end">
+                      <span
+                        class="text-xs text-gray-800 font-semibold text-right"
+                      >
+                        Team B
+                      </span>
+                    </div>
+
+                    <!-- Bottom Row -->
+                    <div></div>
+                    <div class="flex items-center justify-center w-full">
+                      <span
+                        class="absolute w-full text-xs text-black font-semibold text-center whitespace-nowrap"
+                      >
+                        BLV NONAME
+                      </span>
+                    </div>
+
+                    <div></div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <!-- Grid Layout -->
-            <div class="grid grid-cols-12 gap-1 items-center pt-2 px-2">
-              <!-- Team A Column -->
-              <div class="col-span-5 flex items-center justify-start space-x-2">
-                <img
-                  :src="match.teamALogo"
-                  :alt="match.teamA"
-                  class="h-10 w-10 object-contain"
-                />
-                <span
-                  class="text-[10px] text-gray-800 leading-tight break-words font-semibold max-w-[55px]"
-                >
-                  {{ match.teamA }}
-                </span>
-              </div>
-
-              <!-- VS / Time Column -->
-              <div
-                class="col-span-2 flex flex-col items-center justify-center space-y-1"
-              >
-                <span class="text-sm font-bold text-gray-800">VS</span>
-                <span
-                  class="text-[10px] font-medium text-white bg-gray-800 px-2 py-0.5 rounded-md shadow"
-                >
-                  {{ match.time }}
-                </span>
-              </div>
-
-              <!-- Team B Column -->
-              <div class="col-span-5 flex items-center justify-end space-x-2">
-                <span
-                  class="text-[10px] text-gray-800 leading-tight text-right break-words font-semibold max-w-[55px]"
-                >
-                  {{ match.teamB }}
-                </span>
-                <img
-                  :src="match.teamBLogo"
-                  :alt="match.teamB"
-                  class="h-10 w-10 object-contain"
-                />
+                <!-- RIGHT COLUMN: LIVE / BELL -->
+                <div class="col-span-4 flex align-middle justify-end">
+                  <div class="relative pb-2">
+                    <div v-if="match.isLive" class="pb-2 pt-1 pl-3">
+                      <div
+                        class="flex items-center gap-1.5 px-2 py-1 bg-gradient-to-b from-red-500 to-red-700 text-white rounded-sm text-[12px] tracking-wide border-red-600/50 relative"
+                      >
+                        <span class="relative flex h-2 w-2">
+                          <span
+                            class="animate-ping absolute h-full w-full rounded-full bg-white opacity-75"
+                          ></span>
+                          <span class="relative rounded-sm w-4 bg-white"></span>
+                        </span>
+                        <span class="relative">LIVE</span>
+                      </div>
+                    </div>
+                    <button
+                      v-else
+                      @click.stop="toggleNotification(match.id)"
+                      class="w-10 h-10 rounded-sm transition-all focus:outline-none flex flex-col items-center justify-center"
+                      :class="{
+                        'bg-gradient-to-b from-yellow-400 to-yellow-600 border-yellow-500/50 shadow-inner':
+                          notificationStates[match.id],
+                        'bg-gradient-to-b from-gray-700 to-gray-900 border-gray-600/50 hover:from-gray-600 hover:to-gray-800':
+                          !notificationStates[match.id],
+                      }"
+                    >
+                      <div
+                        class="absolute inset-0 rounded-l"
+                        :class="{
+                          'bg-gradient-to-b from-white/20 to-transparent':
+                            notificationStates[match.id],
+                          'bg-gradient-to-b from-white/10 to-transparent':
+                            !notificationStates[match.id],
+                        }"
+                      ></div>
+                      <Bell
+                        class="h-3 w-3 mb-0.5 relative z-10"
+                        :class="{
+                          'text-gray-900': notificationStates[match.id],
+                          'text-yellow-400': !notificationStates[match.id],
+                        }"
+                      />
+                      <span
+                        class="text-[10px] font-medium relative z-10"
+                        :class="{
+                          'text-gray-900': notificationStates[match.id],
+                          'text-yellow-400': !notificationStates[match.id],
+                        }"
+                      >
+                        {{ notificationStates[match.id] ? "ON" : "OFF" }}
+                      </span>
+                      <span
+                        v-if="!notificationStates[match.id]"
+                        class="absolute top-1 right-1 flex h-2.5 w-2.5 z-10"
+                      >
+                        <span
+                          class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"
+                        ></span>
+                        <span
+                          class="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-500"
+                        ></span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

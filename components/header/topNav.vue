@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600"
+    class="w-full bg-gradient-to-r from-yellow-200 via-yellow-200 to-yellow-400"
   >
     <nav class="container">
       <div class="flex h-12">
@@ -15,7 +15,7 @@
               @set-active-dropdown="setActiveDropdown"
             />
           </div>
-          <div class="flex items-center space-x-4">
+          <div class="flex items-center space-x-4 bg-black rounded-full px-2">
             <CurrencySelector />
             <AuthButtons />
           </div>
